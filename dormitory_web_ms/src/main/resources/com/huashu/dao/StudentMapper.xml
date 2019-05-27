@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huashu.dao.StudentMapper">
+
+    <select id="findStudentVoById" resultType="entity.student.StudentVo" parameterType="map">
+        SELECT  s.id,s.studentname, s.collegecode,  c.classinfoname,
+        s.sex,  l.collegename, m.majorname, s.presentage, s.status
+        FROM   tb_student s, tb_major m, tb_classinfo c, tb_college l
+        WHERE  s.classid = c.id   AND s.collegeid = l.id   AND s.majorid = m.id
+        <if test="instituteId!=null and instituteId!=''">
+            and s.collegeid=#{instituteId}
+        </if>
+        <if test="majorId!=null and majorId!=''">
+            and s.majorid=#{majorId}
+        </if>
+        <if test="classId!=null and classId!=''">
+            and s.classid=#{classId}
+        </if>
+        <if test="studentName!=null and studentName!=''">
+            and s.studentname like  "%"#{studentName}"%"
+        </if>
+        <if test="status!=null and status!=''">
+            and s.id not in (select studentid from tb_allocation_student where status = #{status})
+        </if>
+        order by s.id desc
+    </select>
+
+</mapper>

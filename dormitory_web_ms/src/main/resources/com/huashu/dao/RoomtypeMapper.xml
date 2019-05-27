@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huashu.dao.RoomtypeMapper">
+
+    <select id="findAllBySearch" resultType="roomtype" parameterType="map">
+        SELECT
+        ID,
+        typename,
+        typenum,
+        limitcount,
+        money,
+        unit,
+        status,
+        isvalidate,
+        remarks,
+        creator,
+        createdate,
+        modifitor,
+        modifiedate
+        FROM
+        tb_roomtype
+        WHERE 1=1
+
+        <if test="typename!=null and typename!=''">
+        and typename like "%"#{typename}"%"
+        </if>
+
+    </select>
+
+
+</mapper>

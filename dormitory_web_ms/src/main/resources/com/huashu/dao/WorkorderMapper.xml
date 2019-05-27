@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huashu.dao.WorkorderMapper">
+
+    <select id="findAllBySearch" resultType="entity.workorder.WorkOrderListVo" parameterType="workorder">
+        SELECT
+        w.id,
+        w.ordername,
+        w.ordernum,
+        w.position,
+        s.studentName,
+        w.usertel,
+        w.repairname,
+        w.repairtel,
+        w.checkindate,
+        w.status,
+        w.isartificial
+        FROM
+        tb_workorder w left join tb_student s on w.userid = s.id
+        WHERE 1=1
+
+        <if test="ordername!=null and ordername!=''">
+        and w.ordername like "%"#{ordername}"%"
+        </if>
+
+    </select>
+
+    <select id="findWorkerDetail" resultType="entity.workorder.WorkOrderListVo" parameterType="string">
+        SELECT     w.id,
+                    w.ordername,
+                    w.ordernum,
+                    w.position,
+                    w.usertel,
+                    w.repairname,
+                    w.repairtel,
+                    w.isartificial,
+                    w.checkindate,
+                    w.imgurl,
+                    w.status,
+                    w.attention,
+                    c.classinfoname,
+                    s.studentname,
+                    b.dormitoryname,
+                    r.roomnum
+             FROM  tb_workorder w ,tb_classinfo c,tb_student s ,tb_dormitory b,tb_room r
+             WHERE w.id = #{id} and w.userid = s.id AND w.classinfoid = c.id AND w.roomnum = r.id AND r.buildid = b.id
+
+    </select>
+
+</mapper>

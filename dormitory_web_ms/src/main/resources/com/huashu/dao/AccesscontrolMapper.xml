@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huashu.dao.AccesscontrolMapper">
+
+    <select id="findAllAccesscontrolBySearch" resultType="entity.accesscontrol.AccesscontrolVo" parameterType="map">
+        SELECT a.id,
+        s.studentname,
+        a.leavedate,
+        a.rebackdate,
+        a.status,
+        a.isvalidate,
+        a.visitorreason,
+        a.outdoorid,
+        a.incomeid FROM tb_accesscontrol a LEFT JOIN tb_student s
+        ON a.studentid = s.id
+        WHERE 1=1
+        <if test="studentname!=null and studentname!=''">
+            and s.studentname like "%"#{studentname}"%" )
+        </if>
+    </select>
+
+    <select id="findStudnetById" parameterType="string" resultType="student">
+        select * from tb_student where id = #{studentid}
+    </select>
+
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huashu.dao.ClassinfoMapper">
+
+    <select id="findAllClassinfoBySearch" resultType="entity.classinfo.ClassinfoListVo" parameterType="classinfo">
+        SELECT
+        c.ID,
+        c.classinfoname,
+        c.classinfonum,
+        c.classinfocode,
+        m.majorname,
+        c.stucount,
+        u.username,
+        c.address
+        FROM
+        tb_classinfo c left join tb_major m on c.majorid = m.id
+        left join tb_user u on c.userid = u.id
+        WHERE 1=1
+
+        <if test="classinfoname!=null and classinfoname!=''">
+        and c.classinfoname like "%"#{classinfoname}"%"
+        </if>
+        order by  c.id desc
+    </select>
+
+
+    <select id="findClassDetail" resultType="entity.classinfo.ClassinfoListVo" parameterType="string">
+        SELECT
+        c.ID,
+        c.classinfoname,
+        c.classinfonum,
+        c.classinfocode,
+        m.majorname,
+        c.stucount,
+        u.username,
+        c.address
+        FROM
+        tb_classinfo c left join tb_major m on c.majorid = m.id
+        left join tb_user u on c.userid = u.id
+        WHERE c.id=#{id}
+    </select>
+
+</mapper>

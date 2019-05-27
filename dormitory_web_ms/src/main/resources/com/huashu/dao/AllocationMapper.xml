@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huashu.dao.AllocationMapper">
+
+    <select id="findRoomStudent" resultType="entity.dormitory.RoomStudentVo" parameterType="string" >
+            SELECT
+          ts.studentnum studentNum,
+          ts.studentname studentName,
+          ta.bednum bedNum,
+          tc.classinfoname className ,
+          ts.personphone headImg,
+          ts.photo headImg,
+          ts.id studentId,
+          ta.id allocationId
+        FROM
+          tb_allocation ta
+          LEFT JOIN (SELECT * FROM tb_allocation_student WHERE STATUS = 0 AND isvalid = 0 ) tas
+            ON ta.ID = tas.allocation_id
+          LEFT JOIN tb_student ts
+            ON tas.studentid = ts.id
+          LEFT JOIN tb_classinfo tc
+            ON ts.classid = tc.id
+          WHERE ta.isvalid=0 AND ta.roomid = #{roomId}
+    </select>
+
+    <update id="updateAlocationValid" parameterType="entity.dormitory.RoomStudentVo">
+        update tb_allocation_student set status = '1'  where studentid = #{studentId}
+              and allocation_id = #{allocationId}
+    </update>
+    <update id="deleteAlocationValid" parameterType="string">
+        update tb_allocation set isvalid = 1 where id = #{alId}
+
+    </update>
+    <update id="updateAlocationAble" parameterType="string" >
+        update tb_allocation set status = '0' where id = #{allocationId}
+    </update>
+    <update id="updateAlocationDisAble" parameterType="string" >
+        update tb_allocation set status = '1' where id = #{allocationId}
+    </update>
+
+    <select id="findAllocationsByParams" resultType="entity.dormitory.AllocationMgrVo" parameterType="map" >
+        SELECT ta.id,ta. roomid,tr.roomnum,ta.bednum,ta.bedtype,tf.dormitoryname floorname,td.dormitoryname buildname,ta.status,ta.allocationdate
+        FROM tb_allocation ta,tb_room tr,tb_dormitory tf,tb_dormitory td
+        WHERE  ta.isvalid = 0  AND ta.roomid = tr.id AND ta.dormitoryid = tf.id AND ta.buildid = td.id
+
+        <if test="floorId!=null and floorId!=''">
+            and ta.dormitoryid=#{floorId}
+        </if>
+        <if test="roomId!=null and roomId!=''">
+            and ta.roomid=#{roomId}
+        </if>
+        <if test="buildId!=null and buildId!=''">
+            and ta.buildid=#{buildId}
+        </if>
+
+
+    </select>
+
+    <select id="findEditAllocation" resultType="allocation" parameterType="string">
+      SELECT * FROM tb_allocation ta
+        WHERE ta.id = #{alId}
+    </select>
+
+</mapper>

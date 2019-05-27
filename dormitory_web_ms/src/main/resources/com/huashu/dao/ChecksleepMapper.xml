@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huashu.dao.ChecksleepMapper">
+
+    <select id="findAllChecksleepBySearch" resultType="entity.worksleep.WorkSleepListVo" parameterType="checksleep">
+        SELECT
+        sl.id,
+        sl.studentname,
+        sl.studentnum,
+        c.classinfoname,
+        dp.dormitoryname buildname,
+        d.dormitoryname floorname,
+        r.roomnum,
+        sl.bennumber,
+       sl. beddate
+        FROM
+        tb_checksleep sl left join  tb_classinfo c on sl.classinfoid = c.id
+        left join tb_dormitory d on sl.dormitoryid = d.id
+        left join tb_dormitory dp  on sl.dormitorypid = dp.id
+        left join tb_room r on sl.roomid = r.id
+        WHERE 1=1
+
+        <if test="studentname!=null and studentname!=''">
+            and sl.studentname like "%"#{studentname}"%"
+        </if>
+
+    </select>
+
+
+</mapper>

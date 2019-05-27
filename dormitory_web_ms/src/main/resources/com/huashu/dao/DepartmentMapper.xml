@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huashu.dao.DepartmentMapper">
+
+    <select id="findDeparemtnAll" resultType="entity.department.DepartmentVo" parameterType="map">
+        SELECT
+        ID,
+        deptname,
+        deptnum,
+        depttype,
+        deptduty,
+        status,
+        isvalidate,
+        remarks,
+        creator,
+        createdate,
+        modifitor,
+        modifiedate,
+        parentid
+        FROM
+        tb_department
+        WHERE 1=1
+
+        <if test="deptname!=null and deptname!=''">
+        and deptname like "%"#{deptname}"%"
+        </if>
+
+    </select>
+
+
+</mapper>

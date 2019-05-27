@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huashu.dao.RoomMapper">
+
+    <select id="findPageRommJson" resultType="entity.dormitory.DormitoryVo" parameterType="room">
+        SELECT
+        tr.id,
+        tr.roomname,
+        tr.roomnum,
+        tr.roomcode,
+        tr.maxstudent,
+        tr.currentstudent,
+        td.dormitoryname floorname,
+        tr.status ,
+        tp.dormitoryname buildname,
+        tu.username
+        FROM
+        tb_room tr LEFT JOIN
+        tb_dormitory td ON tr.dormitoryid = td.ID LEFT JOIN
+        tb_dormitory tp ON td.parentid = tp.id LEFT JOIN
+        tb_user tu ON td.userid = tu.id
+        WHERE tr.isvalidate = 0
+        <if test="roomnum!=null and roomnum!=''">
+        and tr. roomnum like "%"#{roomnum}"%"
+        </if>
+        <if test="dormitoryid!=null and dormitoryid!=''">
+            and tr.dormitoryid=#{dormitoryid}
+        </if>
+    </select>
+
+    <select id="findDormitoryVoById" parameterType="string" resultType="entity.dormitory.DormitoryVo">
+        SELECT
+        tr.id,
+        tr.roomname,
+        tr.roomnum,
+        tr.roomcode,
+        td.dormitoryname floorname,
+        tr.status ,
+        tp.dormitoryname buildname,
+        tu.username
+        FROM
+        tb_room tr,
+        tb_dormitory td ,
+        tb_dormitory tp,
+        tb_user tu
+        WHERE tr.id = #{roomId} and tr.isvalidate=0 and tr.dormitoryid = td.ID
+        AND tr.buildid = tp.id
+        AND tp.userid = tu.id
+
+    </select>
+
+</mapper>

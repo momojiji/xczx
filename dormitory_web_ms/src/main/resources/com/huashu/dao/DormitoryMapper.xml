@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huashu.dao.DormitoryMapper">
+
+    <select id="findByPageHelper" resultType="entity.dormitory.DormitoryMgrVo" parameterType="string" >
+        SELECT
+        td.id,
+        td.parentid,
+        td.dormitoryname,
+        td.dormitorynum,
+        td.deepth,
+        tp.dormitoryname parentname,
+        tc.collegename institute,
+        tu.username,
+        td.ordernum
+                FROM
+        tb_dormitory td
+        LEFT JOIN tb_dormitory tp
+        ON td.parentid = tp.id
+        LEFT JOIN tb_college tc
+        ON td.collegeid = tc.id
+        LEFT JOIN tb_user tu
+        ON td.userid = tu.id
+        WHERE td.isvalidate = 0 and td.deepth =#{deepth}
+    </select>
+
+    <update id="updateDormitoryValid" parameterType="string" >
+        update tb_dormitory set isvalidate = 1 where id=#{id}
+    </update>
+
+    <select id="findFloorDormitory" parameterType="string" resultType="entity.dormitory.DormitoryMgrVo">
+        SELECT
+        td.id,
+        td.parentid,
+        td.dormitoryname,
+        td.dormitorynum,
+        td.deepth,
+        tp.dormitoryname parentname,
+        tc.collegename institute,
+        tu.username,
+        td.ordernum
+                FROM
+        tb_dormitory td
+        LEFT JOIN tb_dormitory tp
+        ON td.parentid = tp.id
+        LEFT JOIN tb_college tc
+        ON td.collegeid = tc.id
+        LEFT JOIN tb_user tu
+        ON td.userid = tu.id
+        WHERE td.isvalidate = 0 and td.deepth =2 and td.parentid =#{parentId}
+    </select>
+
+</mapper>

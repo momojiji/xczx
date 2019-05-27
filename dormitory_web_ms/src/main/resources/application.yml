@@ -1,0 +1,46 @@
+server: 
+  port: 9001
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    multipart:
+        enabled: true
+        max-file-size: 30MB
+        max-request-size: 30MB
+  application:
+    name: dormitory_web_ms #指定服务名
+  datasource:  
+    driverClassName: com.mysql.jdbc.Driver
+    #url: jdbc:mysql://39.106.108.39:3306/dormitory?useUnicode=true&amp;characterEncoding=UTF8
+    url: jdbc:mysql://localhost:3306/dormitory?useUnicode=true&amp;characterEncoding=UTF8
+    username: root
+    password: root
+    #password: HUASHU_123!@#
+    #password: Smkj@1234.#$
+  jpa:
+    database: MySQL
+    show-sql: true
+    open-in-view: true
+
+mybatis:
+  type-aliases-package: com.huashu.pojo
+logging:
+  level:
+   com.huashu.dao: debug
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+huashu:
+  fastdfs:
+    connect_timeout_in_seconds: 5
+    network_timeout_in_seconds: 30
+    charset: UTF-8
+    tracker_servers: 39.106.108.39:22122 #多个 trackerServer中间以逗号分隔
+    image_Server_Address: 39.106.108.39

@@ -1,0 +1,14 @@
+
+## 教师端的推送账号和密钥
+teacherAppKey=4afbb854c818bd17d363090c
+teacherMasterSecret=6cf6c9bb9b4bf9b844315739
+
+##学生的推送账号和密钥
+studentAppKey=e12ceb1c0874fa8f774e86bb
+studentMasterSecret=fa2159c38085b062bbe26ea1
+
+groupKey=dec5496769ba199bc820b83a
+GroupMasterSecret=d2d9305c939f10733de89ec8
+
+qrcodePath=qrcode;
+

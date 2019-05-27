@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huashu.dao.VisitorMapper">
+
+    <select id="findAllBySearch" resultType="entity.visitor.VistorListVo" parameterType="string">
+        SELECT
+        id,
+        visitorname,
+        visitortel,
+        visitordate,
+        visitoruser,
+        relation,
+        leavetime,
+        visitorreason,
+        remarks,
+        havecar,
+        applydate,
+        photeimg,
+        carnumber,
+        sex,
+        visitordir
+        FROM
+        tb_visitor
+        WHERE 1=1
+
+        <if test="visitorname!=null and visitorname!=''">
+        and visitorname like "%"#{visitorname}"%"
+        </if>
+        order by  id desc
+    </select>
+
+
+</mapper>

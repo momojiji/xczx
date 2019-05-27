@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huashu.dao.RoleMapper">
+
+    <select id="findMenuByRoleId" resultMap="menuInfoMap" parameterType="string">
+        SELECT
+        mi.id,
+        mi.text,
+        mi.icon,
+        mi.url,
+        mc.id childid,
+        mc.text childtext,
+        mc.icon childicon,
+        mc.url childurl,
+        mc.targettype targetType
+        FROM
+        tb_menuinfo mi left join
+        tb_menuinfo mc
+        on  mi.id = mc.parentid
+        where mi.id IN
+        (SELECT
+        rm.menuid
+        FROM
+        tb_role_menu rm
+        WHERE rm.roleid =#{roleId})
+    </select>
+
+    <resultMap id="menuInfoMap" type="entity.menu.MenuAndChildVo">
+        <id property="id" column="id"></id>
+        <result property="text" column="text"></result>
+        <result property="url" column="url"></result>
+        <result property="icon" column="icon"></result>
+        <collection property="children" ofType="entity.menu.MenuAndChildVo">
+            <id property="id" column="childid"></id>
+            <result property="text" column="childtext"></result>
+            <result property="url" column="childurl"></result>
+            <result property="icon" column="chileicon"></result>
+            <result property="targetType" column="targetType"></result>
+        </collection>
+    </resultMap>
+
+    <select id="findRoleList" resultType="role" >
+        select * from tb_role where isvalid = 0
+    </select>
+
+
+</mapper>

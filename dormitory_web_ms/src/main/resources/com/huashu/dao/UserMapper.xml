@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huashu.dao.UserMapper">
+
+    <select id="findAllUser" resultType="entity.user.UserVo" parameterType="map">
+        SELECT u.id,u.username,u.loginname,u.usernum,u.status,u.sex,u.telphone,d.deptname,r.rolename
+        FROM tb_user u left join tb_department d on  u.deptid = d.id left join tb_role r
+        on u.roleid = r.id where u.isvalid = '0'
+        <if test="deptid!=null and deptid!=''">
+            and d.id = #{deptid}
+        </if>
+        <if test="username!=null and username!=''">
+            and u.username like "%"#{username}"%"
+        </if>
+    </select>
+
+
+
+    <select id="loginUser" resultType="entity.user.UserVo" parameterType="map">
+        SELECT u.id,u.username,u.loginname,r.rolename,u.roleid
+        FROM tb_user u  left join tb_role r
+        on u.roleid = r.id where u.isvalid = '0'
+        and u.loginname = #{loginname} and u.password = #{password}
+    </select>
+</mapper>
